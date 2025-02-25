@@ -38,3 +38,7 @@ window.addEventListener("keyup", (event) => {
             break;
     }
 })
+
+function getElement(x, y) {
+    return slide.elements.find((elem) => (x < elem.x + 50 && x > elem.x - 50) && (y < elem.y + 50 && y > elem.y - 50));
+}
