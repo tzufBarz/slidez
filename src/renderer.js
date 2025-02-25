@@ -1,6 +1,5 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-let slide;
 const baseWidth = 2400;
 const baseHeight = 1800;
 
@@ -27,11 +26,6 @@ function adjustCanvasResolution() {
 window.addEventListener("resize", adjustCanvasResolution)
 
 adjustCanvasResolution();
-
-function setSlide(s) {
-    slide = s;
-    renderSlide();
-}
 
 function renderSlide() {
     ctx.fillStyle = "white";
