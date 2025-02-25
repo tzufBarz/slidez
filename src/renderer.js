@@ -2,6 +2,7 @@ const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const baseWidth = 2400;
 const baseHeight = 1800;
+let isEditor = true;
 
 function adjustCanvasResolution() {
     const screenWidth = window.innerWidth;
@@ -38,8 +39,17 @@ function renderElement(element) {
     switch (element.type) {
         case "text":
             ctx.fillStyle = element.color || "black";
-            ctx.font = element.font || "24pt Arial";
+            ctx.font = element.font || "64px Arial";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
             ctx.fillText(element.text, element.x, element.y);
+TextMetrics
+            if (isEditor) {
+                ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.rect(element.x - element.width / 2, element.y - element.height / 2, element.width, element.height);
+                ctx.stroke();
+            }
             break;
     }
 }
