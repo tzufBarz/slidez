@@ -16,6 +16,15 @@ fetch("/data/slides.json")
 
 function start(s) {
     slides = s;
+    slides.forEach((slide) => {
+        slide.elements.forEach((element) => {
+            element.color ??= "black";
+            element.font ??= "64px Arial";
+            ctx.font = element.font;
+            element.width = ctx.measureText(element.text).width;
+            element.height = 100;
+        });
+    });
     setSlide(0);
 }
 
@@ -40,7 +49,6 @@ window.addEventListener("keyup", (event) => {
 })
 
 function getElement(x, y) {
-    console.log(x,y)
     return slide.elements.find((elem) => 
         (x < elem.x + elem.width / 2 && x > elem.x - elem.width / 2) && (y < elem.y + elem.height / 2 && y > elem.y - elem.height / 2)
     );

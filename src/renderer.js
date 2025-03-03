@@ -38,14 +38,14 @@ function renderSlide() {
 function renderElement(element) {
     switch (element.type) {
         case "text":
-            ctx.fillStyle = element.color || "black";
-            ctx.font = element.font || "64px Arial";
+            ctx.fillStyle = element.color;
+            ctx.font = element.font;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
             ctx.fillText(element.text, element.x, element.y);
-TextMetrics
+
             if (isEditor) {
-                ctx.strokeStyle = "black";
+                ctx.strokeStyle = element.selected ? "black" : "gray";
                 ctx.beginPath();
                 ctx.rect(element.x - element.width / 2, element.y - element.height / 2, element.width, element.height);
                 ctx.stroke();
