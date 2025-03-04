@@ -14,3 +14,12 @@ app.whenReady().then(() => {
     });
     mainWindow.loadFile('editor.html');
 });
+
+ipcMain.handle('save-file', async (event, filePath, data) => {
+    try {
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf-8');
+        return { success: true };
+    } catch (err) {
+        return { success: false, error: err.message };
+    }
+});

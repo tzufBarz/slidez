@@ -1,8 +1,9 @@
 let slides;
 let slideN;
 let slide;
+let filePath = "./data/slides.json";
 
-fetch("./data/slides.json")
+fetch(filePath)
   .then(response => {
     if (!response.ok) {
       throw new Error("Network response was not ok");

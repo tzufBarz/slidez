@@ -54,10 +54,22 @@ window.addEventListener("keydown", (e) => {
     }
 
     if (e.ctrlKey && e.key === 's') {
-        
+        savePresentation()
     }
 
     if (e.key == "F5") {
         window.location.href = "viewer.html";
+        savePresentation();
     }
 });
+
+window.addEventListener("unload", savePresentation);
+
+async function savePresentation() {
+    const result = await window.electronAPI.saveFile(filePath, slides);
+    if (result.success) {
+        console.log('File saved successfully');
+    } else {
+        console.error('Error saving file:', result.error);
+    }
+}
