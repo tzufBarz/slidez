@@ -56,4 +56,8 @@ window.addEventListener("keydown", (e) => {
     if (e.ctrlKey && e.key === 's') {
         
     }
+
+    if (e.key == "F5") {
+        window.location.href = "viewer.html";
+    }
 });
