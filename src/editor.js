@@ -58,14 +58,16 @@ window.addEventListener("keydown", (e) => {
     }
 
     if (e.key == "F5") {
-        window.location.href = "viewer.html";
-        savePresentation();
+        savePresentation().finally(() => {
+            window.location.href = "viewer.html";
+        });
     }
 });
 
 window.addEventListener("unload", savePresentation);
 
 async function savePresentation() {
+    slides[slideN] = slide;
     const result = await window.electronAPI.saveFile(filePath, slides);
     if (result.success) {
         console.log('File saved successfully');
