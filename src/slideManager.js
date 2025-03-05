@@ -130,4 +130,11 @@ function generateTargets() {
             element["TARGET_alpha"] = 0;
         }
     }
+    for (let element of nextSlide.elements) {
+        if (!element.found) {
+            slide.elements.push(element);
+            element.START_alpha = 0;
+            element.TARGET_alpha = 1;
+        }
+    }
 }
