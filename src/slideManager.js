@@ -47,6 +47,10 @@ function setSlide(n) {
             editing.selected = undefined;
             editing = undefined;
         }
+        if (dragging) {
+            dragging.selected = undefined;
+            dragging = undefined;
+        }
         slides[slideN] = slide;
     }
     slideN = n;

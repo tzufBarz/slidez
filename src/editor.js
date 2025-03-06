@@ -73,6 +73,10 @@ async function savePresentation() {
         editing.selected = undefined;
         editing = undefined;
     }
+    if (dragging) {
+        dragging.selected = undefined;
+        dragging = undefined;
+    }
     slides[slideN] = slide;
     const result = await window.electronAPI.saveFile(filePath, slides);
     if (result.success) {
