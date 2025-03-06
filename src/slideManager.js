@@ -28,16 +28,18 @@ fetch(filePath)
 function start(s) {
     slides = s;
     slides.forEach((slide) => {
-        slide.elements.forEach((element) => {
-            element.color ??= "black";
-            element.fontSize ??= 64;
-            element.fontFamily ??= "Arial";
-            ctx.font = `${element.fontSize}px ${element.fontFamily}`;
-            element.width = ctx.measureText(element.text).width;
-            element.height = element.fontSize;
-        });
+        slide.elements.forEach(initElement);
     });
     setSlide(0);
+}
+
+function initElement(element) {
+    element.color ??= "black";
+    element.fontSize ??= 64;
+    element.fontFamily ??= "Arial";
+    ctx.font = `${element.fontSize}px ${element.fontFamily}`;
+    element.width = ctx.measureText(element.text).width;
+    element.height = element.fontSize;
 }
 
 function setSlide(n) {

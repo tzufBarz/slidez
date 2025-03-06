@@ -51,9 +51,11 @@ canvas.addEventListener("mouseup", (e) => {
 window.addEventListener("keydown", (e) => {
     if (editing) {
         if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+            editing.text ??= "";
             editing.text += e.key;
         } else if (e.key === "Backspace") {
             editing.text = editing.text.slice(0, -1);
+            if (editing.text == "") editing.text = undefined;
         }
         ctx.font = editing.font;
         editing.width = ctx.measureText(editing.text).width;
@@ -116,3 +118,14 @@ async function savePresentation() {
         adjustCanvasResolution();
     });
 });
+
+function addTextBox() {
+    let textBox = {
+        type: "text",
+        x: baseWidth / 2,
+        y: baseHeight / 2
+    };
+    initElement(textBox);
+    slide.elements.push(textBox);
+    renderSlide();
+}

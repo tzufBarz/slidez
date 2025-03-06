@@ -43,14 +43,24 @@ function renderElement(element) {
             ctx.font =  `${element.fontSize}px ${element.fontFamily}`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
-            ctx.fillText(element.text, element.x, element.y);
 
+            if (!element.text) {
+                if (isEditor) {
+                    ctx.globalAlpha /= 2;
+                    ctx.fillText("Insert Text", element.x, element.y);
+                    ctx.globalAlpha *= 2;
+                }
+            } else {
+                ctx.fillText(element.text, element.x, element.y);
+            }
+            
             if (isEditor) {
                 ctx.strokeStyle = element.selected ? "black" : "gray";
                 ctx.beginPath();
                 ctx.rect(element.x - element.width / 2, element.y - element.height / 2, element.width, element.height);
                 ctx.stroke();
             }
+            
             break; 
     }
 }
