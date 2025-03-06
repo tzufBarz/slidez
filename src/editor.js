@@ -1,3 +1,6 @@
+const navbar = document.getElementById("navbar");
+const toolbar = document.getElementById("toolbar");
+
 let dragging;
 let dragged = false;
 let dragX;
@@ -5,7 +8,9 @@ let dragY;
 
 let editing;
 
-let page = 0;
+let toolbarPage = 0;
+
+let clipboard;
 
 canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect()
@@ -59,6 +64,21 @@ window.addEventListener("keydown", (e) => {
         savePresentation()
     }
 
+    if (e.ctrlKey && e.key == 'c' && editing) {
+        clipboard = structuredClone(editing);
+        clipboard.selected = undefined;
+    }
+
+    if (e.ctrlKey && e.key == 'v' && clipboard) {
+        slide.elements.push(structuredClone(clipboard));
+        renderSlide();
+    }
+
+    if (e.key == "Delete" && editing) {
+        slide.elements.splice(slide.elements.indexOf(editing), 1);
+        renderSlide();
+    }
+
     if (e.key == "F5") {
         savePresentation().finally(() => {
             window.location.href = "viewer.html";
@@ -86,11 +106,13 @@ async function savePresentation() {
     }
 }
 
-document.querySelectorAll(".top-button").forEach((button, i) => {
+[...navbar.children].forEach((button, i) => {
     button.addEventListener("click", () => {
-        console.log(page);
-        document.querySelector(`.top-button:nth-child(${page + 1})`).classList.remove("active");
-        page = i;
-        document.querySelector(`.top-button:nth-child(${page + 1})`).classList.add("active");
+        navbar.children[toolbarPage].classList.remove("active");
+        toolbar.children[toolbarPage].classList.remove("show");
+        toolbarPage = i;
+        navbar.children[toolbarPage].classList.add("active");
+        toolbar.children[toolbarPage].classList.add("show");
+        adjustCanvasResolution();
     });
 });

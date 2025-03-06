@@ -5,7 +5,7 @@ const baseHeight = 1800;
 
 function adjustCanvasResolution() {
     const screenWidth = window.innerWidth;
-    const screenHeight = window.innerHeight - (document.querySelector(".top-bar") ?? {offsetHeight: 0}).offsetHeight;
+    const screenHeight = window.innerHeight - (document.getElementById("topbar") ?? {offsetHeight: 0}).offsetHeight;
 
     const scaleFactorX = screenWidth / baseWidth;
     const scaleFactorY = screenHeight / baseHeight;
