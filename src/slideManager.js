@@ -99,8 +99,7 @@ function getElement(x, y) {
 
 function isSame(e1, e2) {
     for (key of Object.keys(e1)) {
-        if (key != "x" && key != "y" &&
-            key != "fontSize" && key != "height" && key != "width" &&
+        if (!transProp.includes(key) &&
             key != "found" && e1[key] != e2[key]) return false;
     }
     return true;
