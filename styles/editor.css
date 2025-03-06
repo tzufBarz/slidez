@@ -1,0 +1,28 @@
+body {
+    background-color: #f3f3f3;
+}
+
+.top-bar {
+    overflow: hidden;
+    background-color: #e6e6e6;
+}
+
+.top-button {
+    float: left;
+    color: #000000;
+    text-align:  center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.top-button:hover {
+    background-color: #adadad;
+}
+
+.top-button.active {
+    background-color: #575757;
+    color: white;
+}

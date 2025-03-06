@@ -42,7 +42,13 @@ function start(s) {
 
 function setSlide(n) {
     if (transProgress > 0 || n >= slides.length || n < 0) return;
-    if (isEditor) slides[slideN] = slide;
+    if (isEditor) {
+        if (editing) {
+            editing.selected = undefined;
+            editing = undefined;
+        }
+        slides[slideN] = slide;
+    }
     slideN = n;
     nextSlide = structuredClone(slides[slideN]);
     if (isEditor || !slide || !slide.transition) {

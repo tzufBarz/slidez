@@ -5,6 +5,8 @@ let dragY;
 
 let editing;
 
+let page = 0;
+
 canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect()
     const x = (e.clientX - rect.left) * baseWidth / canvas.width;
@@ -67,6 +69,10 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("unload", savePresentation);
 
 async function savePresentation() {
+    if (editing) {
+        editing.selected = undefined;
+        editing = undefined;
+    }
     slides[slideN] = slide;
     const result = await window.electronAPI.saveFile(filePath, slides);
     if (result.success) {
@@ -75,3 +81,12 @@ async function savePresentation() {
         console.error('Error saving file:', result.error);
     }
 }
+
+document.querySelectorAll(".top-button").forEach((button, i) => {
+    button.addEventListener("click", () => {
+        console.log(page);
+        document.querySelector(`.top-button:nth-child(${page + 1})`).classList.remove("active");
+        page = i;
+        document.querySelector(`.top-button:nth-child(${page + 1})`).classList.add("active");
+    });
+});
