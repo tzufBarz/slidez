@@ -38,17 +38,16 @@ function renderSlide() {
 function renderElement(element) {
     switch (element.type) {
         case "text":
-            ctx.fillStyle = element.color;
-            ctx.globalAlpha = element.alpha ?? 1;
-            ctx.font =  `${element.fontSize}px ${element.fontFamily}`;
+            ctx.fillStyle = `rgba(${element.r}, ${element.g}, ${element.b}, ${element.a})`;
+            ctx.font = `${element.fontSize}px ${element.fontFamily}`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
             if (!element.text) {
                 if (isEditor) {
-                    ctx.globalAlpha /= 2;
+                    ctx.globalAlpha = 0.5;
                     ctx.fillText("Insert Text", element.x, element.y);
-                    ctx.globalAlpha *= 2;
+                    ctx.globalAlpha = 1;
                 }
             } else {
                 ctx.fillText(element.text, element.x, element.y);

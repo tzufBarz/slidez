@@ -11,7 +11,7 @@ let transProgress = 0;
 let transLength;
 let transInterval;
 
-let transProp = ["x", "y", "width", "height", "fontSize", "alpha"];
+let transProp = ["x", "y", "width", "height", "fontSize", "r", "g", "b", "a"];
 
 fetch(filePath)
   .then(response => {
@@ -34,7 +34,10 @@ function start(s) {
 }
 
 function initElement(element) {
-    element.color ??= "black";
+    element.r ??= 0;
+    element.g ??= 0;
+    element.b ??= 0;
+    element.a ??= 1;
     element.fontSize ??= 64;
     element.fontFamily ??= "Arial";
     ctx.font = `${element.fontSize}px ${element.fontFamily}`;
@@ -131,21 +134,21 @@ function generateTargets() {
         newE = findFirstUnfound(element);
         if (newE) {
             for (let prop of transProp) {
-                if (element[prop]) {
+                if (element[prop] != undefined) {
                     element[`START_${prop}`] = element[prop];
                     element[`TARGET_${prop}`] = newE[prop];
                 }
             }
         } else {
-            element["START_alpha"] = 1;
-            element["TARGET_alpha"] = 0;
+            element.START_a = element.a;
+            element.TARGET_a = 0;
         }
     }
     for (let element of nextSlide.elements) {
         if (!element.found) {
             slide.elements.push(element);
-            element.START_alpha = 0;
-            element.TARGET_alpha = 1;
+            element.START_a = 0;
+            element.TARGET_a = element.a;
         }
     }
 }
