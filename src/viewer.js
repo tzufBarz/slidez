@@ -33,20 +33,6 @@ function updateTransition() {
     renderSlide();
 }
 
-function getElement(x, y) {
-    return slide.elements.find((elem) => 
-        (x < elem.x + elem.width / 2 && x > elem.x - elem.width / 2) && (y < elem.y + elem.height / 2 && y > elem.y - elem.height / 2)
-    );
-}
-
-function isSame(e1, e2) {
-    for (key of Object.keys(e1)) {
-        if (!transProp.includes(key) &&
-            key != "found" && e1[key] != e2[key]) return false;
-    }
-    return true;
-}
-
 function findFirstUnfound(e) {
     for (let element of nextSlide.elements) {
         if (!element.found && isSame(element, e)) {
