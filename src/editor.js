@@ -16,7 +16,7 @@ canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect()
     const x = (e.clientX - rect.left) * baseWidth / canvas.width;
     const y = (e.clientY - rect.top) * baseHeight / canvas.height;
-    if (editing) editing.selected = false;
+    if (editing) editing.selected = undefined;
     dragging = getElement(x, y);
     if (dragging) {
         dragging.selected = true;
@@ -41,7 +41,7 @@ canvas.addEventListener("mousemove", (e) => {
 canvas.addEventListener("mouseup", (e) => {
     if (dragged) {
         dragged = false;
-        dragging.selected = false;
+        dragging.selected = undefined;
     }
     else editing = dragging;
     dragging = undefined;
