@@ -54,7 +54,7 @@ function renderElement(element) {
             }
             
             if (isEditor) {
-                ctx.strokeStyle = element.selected ? "black" : "gray";
+                ctx.strokeStyle = element == selected ? "black" : "gray";
                 ctx.beginPath();
                 ctx.rect(element.x - element.width / 2, element.y - element.height / 2, element.width, element.height);
                 ctx.stroke();

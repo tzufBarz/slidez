@@ -1,12 +1,11 @@
 const navbar = document.getElementById("navbar");
 const toolbar = document.getElementById("toolbar");
 
-let dragging;
+let selected;
 let dragged = false;
+let dragging = false;
 let dragX;
 let dragY;
-
-let editing;
 
 let toolbarPage = 0;
 
@@ -16,49 +15,44 @@ canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect()
     const x = (e.clientX - rect.left) * baseWidth / canvas.width;
     const y = (e.clientY - rect.top) * baseHeight / canvas.height;
-    if (editing) editing.selected = undefined;
-    dragging = getElement(x, y);
-    if (dragging) {
-        dragging.selected = true;
-        dragX = dragging.x - x;
-        dragY = dragging.y - y;
+    selected = getElement(x, y);
+    if (selected) {
+        dragging = true;
+        dragX = selected.x - x;
+        dragY = selected.y - y;
         renderSlide();
     }
 });
 
 canvas.addEventListener("mousemove", (e) => {
-    if (dragging) {
+    if (selected && dragging) {
         dragged = true;
         const rect = canvas.getBoundingClientRect();
         const x = (e.clientX - rect.left) * baseWidth / canvas.width;
         const y = (e.clientY - rect.top) * baseHeight / canvas.height;
-        dragging.x = x + dragX;
-        dragging.y = y + dragY;
+        selected.x = x + dragX;
+        selected.y = y + dragY;
         renderSlide();
     }
 });
 
 canvas.addEventListener("mouseup", (e) => {
-    if (dragged) {
-        dragged = false;
-        dragging.selected = undefined;
-    }
-    else editing = dragging;
-    dragging = undefined;
+    dragged = false;
+    dragging = false;
     renderSlide();
 });
 
 window.addEventListener("keydown", (e) => {
-    if (editing) {
+    if (selected && selected.type == "text") {
         if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
-            editing.text ??= "";
-            editing.text += e.key;
+            selected.text ??= "";
+            selected.text += e.key;
         } else if (e.key === "Backspace") {
-            editing.text = editing.text.slice(0, -1);
-            if (editing.text == "") editing.text = undefined;
+            selected.text = selected.text.slice(0, -1);
+            if (selected.text == "") selected.text = undefined;
         }
-        ctx.font = editing.font;
-        editing.width = ctx.measureText(editing.text).width;
+        ctx.font = selected.font;
+        selected.width = ctx.measureText(selected.text).width;
         renderSlide();
     }
 
@@ -66,9 +60,8 @@ window.addEventListener("keydown", (e) => {
         savePresentation()
     }
 
-    if (e.ctrlKey && e.key == 'c' && editing) {
-        clipboard = structuredClone(editing);
-        clipboard.selected = undefined;
+    if (e.ctrlKey && e.key == 'c' && selected) {
+        clipboard = structuredClone(selected);
     }
 
     if (e.ctrlKey && e.key == 'v' && clipboard) {
@@ -76,8 +69,8 @@ window.addEventListener("keydown", (e) => {
         renderSlide();
     }
 
-    if (e.key == "Delete" && editing) {
-        slide.elements.splice(slide.elements.indexOf(editing), 1);
+    if (e.key == "Delete" && selected) {
+        slide.elements.splice(slide.elements.indexOf(selected), 1);
         renderSlide();
     }
 
@@ -91,13 +84,8 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("unload", savePresentation);
 
 async function savePresentation() {
-    if (editing) {
-        editing.selected = undefined;
-        editing = undefined;
-    }
-    if (dragging) {
-        dragging.selected = undefined;
-        dragging = undefined;
+    if (selected) {
+        selected = undefined;
     }
     slides[slideN] = slide;
     const result = await window.electronAPI.saveFile(filePath, slides);
