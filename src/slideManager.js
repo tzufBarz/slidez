@@ -46,7 +46,7 @@ function initElement(element) {
 }
 
 function textMeasure(element) {
-    ctx.font = `${element.fontSize}px ${element.fontFamily}`;
+    ctx.font = `${element.fontSize}px '${element.fontFamily}'`;
     element.width = ctx.measureText(element.text).width;
     element.height = element.fontSize;
 }

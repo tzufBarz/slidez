@@ -20,15 +20,9 @@ body {
     display: block;
 }
 
-#toolbar input {
-    background: transparent;
-    max-width: 100px;
-}
-
 #navbar button, #toolbar button, #toolbar input {
     color: #000000;
     text-align:  center;
-    padding: 8px 16px;
     text-decoration: none;
     font-size: 17px;
     user-select: none;
@@ -36,7 +30,22 @@ body {
     outline: none;
 }
 
+#toolbar input {
+    background: transparent;
+    padding: 8px;
+    border-bottom: 1px solid white;
+}
+
+#fontsize {
+    max-width: 50px;
+}
+
+#fontfamily {
+    max-width: 100px;
+}
+
 #navbar button, #toolbar button {
+    padding: 8px 16px;
     cursor: pointer;
 }
 

@@ -2,7 +2,8 @@ const navbar = document.getElementById("navbar");
 const toolbar = document.getElementById("toolbar");
 
 const textBar = document.getElementById("text-bar");
-const fontSize = document.getElementById("fontsize")
+const fontSize = document.getElementById("fontsize");
+const fontFamily = document.getElementById("fontfamily");
 
 let selected;
 let dragged = false;
@@ -43,8 +44,10 @@ canvas.addEventListener("mouseup", (e) => {
     if (selected && selected.type == "text") {
         textBar.classList.add("show");
         fontSize.value = selected.fontSize;
+        fontFamily.value = selected.fontFamily;
     }
     else textBar.classList.remove("show");
+    adjustCanvasResolution();
     dragged = false;
     dragging = false;
     renderSlide();
@@ -58,8 +61,28 @@ fontSize.addEventListener("change", () => {
     }
 });
 
+fontFamily.addEventListener("change", () => {
+    if (selected && selected.type == "text") {
+        selected.fontFamily = fontFamily.value;
+        textMeasure(selected);
+        renderSlide();
+    }
+});
+
 window.addEventListener("keydown", (e) => {
-    if (selected && selected.type == "text" && document.activeElement === canvas) {
+    if (e.ctrlKey && e.key === 's') {
+        savePresentation()
+    }
+
+    if (e.key == "F5") {
+        savePresentation().finally(() => {
+            window.location.href = "viewer.html";
+        });
+    }
+
+    if (document.activeElement !== canvas) return;
+
+    if (selected && selected.type == "text") {
         if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
             selected.text ??= "";
             selected.text += e.key;
@@ -69,10 +92,6 @@ window.addEventListener("keydown", (e) => {
         }
         textMeasure(selected);
         renderSlide();
-    }
-
-    if (e.ctrlKey && e.key === 's') {
-        savePresentation()
     }
 
     if (e.ctrlKey && e.key == 'c' && selected) {
@@ -87,12 +106,6 @@ window.addEventListener("keydown", (e) => {
     if (e.key == "Delete" && selected) {
         slide.elements.splice(slide.elements.indexOf(selected), 1);
         renderSlide();
-    }
-
-    if (e.key == "F5") {
-        savePresentation().finally(() => {
-            window.location.href = "viewer.html";
-        });
     }
 });
 

@@ -39,7 +39,7 @@ function renderElement(element) {
     switch (element.type) {
         case "text":
             ctx.fillStyle = `rgba(${element.r}, ${element.g}, ${element.b}, ${element.a})`;
-            ctx.font = `${element.fontSize}px ${element.fontFamily}`;
+            ctx.font = `${element.fontSize}px '${element.fontFamily}'`;
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
 
