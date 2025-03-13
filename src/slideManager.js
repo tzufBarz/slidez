@@ -30,6 +30,9 @@ function start(s) {
     slides.forEach((slide) => {
         slide.elements.forEach(initElement);
     });
+
+    if (isEditor) addThumbnails();
+
     setSlide(0);
 }
 
@@ -53,7 +56,16 @@ function textMeasure(element) {
 
 function setSlide(n) {
     if (transProgress > 0 || n >= slides.length || n < 0) return;
-    if (isEditor) slides[slideN] = slide;
+    if (isEditor) {
+        if (slide) {
+            slides[slideN] = slide;
+            generateThumbnail(slideN);
+            thumbnailContainer.children[slideN].classList.remove("selected");
+        }
+        console.log(thumbnailContainer.children);
+        console.log(n)
+        thumbnailContainer.children[n].classList.add("selected");
+    }
     slideN = n;
     nextSlide = structuredClone(slides[slideN]);
     if (isEditor || !slide || !slide.transition) {

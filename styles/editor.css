@@ -61,3 +61,17 @@ body {
 canvas {
     outline: none;
 }
+
+#thumbnails {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    gap: 10px;
+}
+
+#thumbnails .selected {
+    outline: 1px solid black;
+}

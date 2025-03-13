@@ -23,6 +23,10 @@ let toolbarPage = 0;
 
 let clipboard;
 
+let thumbnailPath = "./data";
+
+const thumbnails = [];
+
 canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect()
     const x = (e.clientX - rect.left) * baseWidth / canvas.width;
@@ -120,6 +124,11 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("unload", savePresentation);
 
 async function savePresentation() {
+    generateThumbnail(slideN);
+    for (let i = 0; i < slides.length; i++) {
+        window.electronAPI.saveThumbnail(`${thumbnailPath}/${i}.png`, thumbnails[i]);
+    }
+
     if (selected) {
         selected = undefined;
     }
@@ -154,10 +163,28 @@ function addTextBox() {
     renderSlide();
 }
 
-function renderThumbnail() {
+const thumbnailContainer = document.getElementById("thumbnails");
+
+function generateThumbnail(n) {
     thumbnailCtx.fillStyle = "white";
     thumbnailCtx.globalAlpha = 1;
     thumbnailCtx.fillRect(0, 0, baseWidth, baseHeight);
 
-    slide.elements.forEach((element) => renderElement(element, false, thumbnailCtx));
+    slides[n].elements.forEach((element) => renderElement(element, false, thumbnailCtx));
+
+    thumbnails[n] = thumbnailCanvas.toDataURL("image/png");
+
+    thumbnailContainer.children[n].src = thumbnails[n];
+};
+
+function addThumbnails() {
+    for (let i = thumbnailContainer.children.length; i < slides.length; i++) {
+        const thumbnail = document.createElement("img");
+        thumbnail.src = `${thumbnailPath}/${i}.png`;
+        thumbnail.width = 200;
+        thumbnailContainer.append(thumbnail);
+        thumbnail.addEventListener("click", () => {
+            setSlide(i);
+        })
+    }
 }
