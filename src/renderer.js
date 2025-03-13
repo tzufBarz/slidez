@@ -32,32 +32,32 @@ function renderSlide() {
     ctx.globalAlpha = 1;
     ctx.fillRect(0, 0, baseWidth, baseHeight);
 
-    slide.elements.forEach(renderElement);
+    slide.elements.forEach((element) => renderElement(element));
 }
 
-function renderElement(element) {
+function renderElement(element, iE=isEditor, ct=ctx) {
     switch (element.type) {
         case "text":
-            ctx.fillStyle = `rgba(${element.r}, ${element.g}, ${element.b}, ${element.a})`;
-            ctx.font = `${element.fontSize}px '${element.fontFamily}'`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
+            ct.fillStyle = `rgba(${element.r}, ${element.g}, ${element.b}, ${element.a})`;
+            ct.font = `${element.fontSize}px '${element.fontFamily}'`;
+            ct.textAlign = "center";
+            ct.textBaseline = "middle";
 
             if (!element.text) {
-                if (isEditor) {
-                    ctx.globalAlpha = 0.5;
-                    ctx.fillText("Insert Text", element.x, element.y);
-                    ctx.globalAlpha = 1;
+                if (iE) {
+                    ct.globalAlpha = 0.5;
+                    ct.fillText("Insert Text", element.x, element.y);
+                    ct.globalAlpha = 1;
                 }
             } else {
-                ctx.fillText(element.text, element.x, element.y);
+                ct.fillText(element.text, element.x, element.y);
             }
             
-            if (isEditor) {
-                ctx.strokeStyle = element == selected ? "black" : "gray";
-                ctx.beginPath();
-                ctx.rect(element.x - element.width / 2, element.y - element.height / 2, element.width, element.height);
-                ctx.stroke();
+            if (iE) {
+                ct.strokeStyle = element == selected ? "black" : "gray";
+                ct.beginPath();
+                ct.rect(element.x - element.width / 2, element.y - element.height / 2, element.width, element.height);
+                ct.stroke();
             }
             
             break; 

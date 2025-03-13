@@ -5,6 +5,14 @@ const textBar = document.getElementById("text-bar");
 const fontSize = document.getElementById("fontsize");
 const fontFamily = document.getElementById("fontfamily");
 
+const thumbnailCanvas = document.createElement("canvas");
+const thumbnailCtx = thumbnailCanvas.getContext("2d");
+
+thumbnailCanvas.width = 200;
+thumbnailCanvas.height = thumbnailCanvas.width * (baseHeight / baseWidth);
+const thumbnailScale = thumbnailCanvas.width / baseWidth;
+thumbnailCtx.scale(thumbnailScale, thumbnailScale);
+
 let selected;
 let dragged = false;
 let dragging = false;
@@ -144,4 +152,12 @@ function addTextBox() {
     initElement(textBox);
     slide.elements.push(textBox);
     renderSlide();
+}
+
+function renderThumbnail() {
+    thumbnailCtx.fillStyle = "white";
+    thumbnailCtx.globalAlpha = 1;
+    thumbnailCtx.fillRect(0, 0, baseWidth, baseHeight);
+
+    slide.elements.forEach((element) => renderElement(element, false, thumbnailCtx));
 }
