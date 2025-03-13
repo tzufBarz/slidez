@@ -152,7 +152,7 @@ async function savePresentation() {
     });
 });
 
-function addTextBox() {
+function insertTextBox() {
     let textBox = {
         type: "text",
         x: baseWidth / 2,
