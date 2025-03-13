@@ -25,6 +25,7 @@ ipcMain.handle('save-file', async (event, filePath, data) => {
 });
 
 ipcMain.handle('save-thumbnail', async (event, filePath, dataUrl) => {
+    if (!dataUrl) return;
     try {
         const base64Data = dataUrl.replace(/^data:image\/png;base64,/, '');
         const buffer = Buffer.from(base64Data, 'base64');
@@ -32,6 +33,16 @@ ipcMain.handle('save-thumbnail', async (event, filePath, dataUrl) => {
         return { success: true, path: filePath };
     } catch (error) {
         console.error("Error saving thumbnail:", error);
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('remove-thumbnail', async (event, filePath) => {
+    try {
+        await fs.promises.unlink(filePath);
+        return { success: true, path: filePath };
+    } catch (error) {
+        console.error("Error removing thumbnail:", error);
         return { success: false, error: error.message };
     }
 });

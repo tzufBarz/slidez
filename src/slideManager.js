@@ -62,8 +62,6 @@ function setSlide(n) {
             generateThumbnail(slideN);
             thumbnailContainer.children[slideN].classList.remove("selected");
         }
-        console.log(thumbnailContainer.children);
-        console.log(n)
         thumbnailContainer.children[n].classList.add("selected");
     }
     slideN = n;

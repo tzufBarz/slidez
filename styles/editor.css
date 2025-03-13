@@ -70,6 +70,7 @@ canvas {
     left: 10px;
     transform: translateY(-50%);
     gap: 10px;
+    outline: none;
 }
 
 #thumbnails .selected {

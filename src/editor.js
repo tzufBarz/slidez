@@ -26,6 +26,7 @@ let clipboard;
 let thumbnailPath = "./data";
 
 const thumbnails = [];
+const thumbnailContainer = document.getElementById("thumbnails");
 
 canvas.addEventListener("mousedown", (e) => {
     const rect = canvas.getBoundingClientRect()
@@ -90,6 +91,10 @@ window.addEventListener("keydown", (e) => {
         savePresentation().finally(() => {
             window.location.href = "viewer.html";
         });
+    }
+
+    if (e.key == "Delete" && document.activeElement === thumbnailContainer && slides.length > 1) {
+        deleteSlide(slideN);
     }
 
     if (document.activeElement !== canvas) return;
@@ -163,8 +168,6 @@ function insertTextBox() {
     renderSlide();
 }
 
-const thumbnailContainer = document.getElementById("thumbnails");
-
 function generateThumbnail(n) {
     thumbnailCtx.fillStyle = "white";
     thumbnailCtx.globalAlpha = 1;
@@ -187,4 +190,20 @@ function addThumbnails() {
             setSlide(i);
         })
     }
+}
+
+function insertSlide() {
+    slides.push({elements: [], transition: "morph"});
+    addThumbnails();
+    generateThumbnail(slides.length - 1);
+    window.electronAPI.saveThumbnail(`${thumbnailPath}/${slides.length - 1}.png`, thumbnails[slides.length - 1]);s
+    setSlide(slides.length - 1);
+}
+
+function deleteSlide(n) {
+    setSlide(n - 1);
+    slides.splice(n, 1);
+    thumbnailContainer.removeChild(thumbnailContainer.children[n]);
+    thumbnails.splice(n, 1);        
+    window.electronAPI.removeThumbnail(`${thumbnailPath}/${n}.png`);
 }
