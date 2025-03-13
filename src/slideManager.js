@@ -38,8 +38,14 @@ function initElement(element) {
     element.g ??= 0;
     element.b ??= 0;
     element.a ??= 1;
-    element.fontSize ??= 64;
-    element.fontFamily ??= "Arial";
+    if (element.type == "text") {
+        element.fontSize ??= 64;
+        element.fontFamily ??= "Arial";
+        textMeasure(element);
+    }
+}
+
+function textMeasure(element) {
     ctx.font = `${element.fontSize}px ${element.fontFamily}`;
     element.width = ctx.measureText(element.text).width;
     element.height = element.fontSize;

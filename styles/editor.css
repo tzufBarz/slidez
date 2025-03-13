@@ -12,25 +12,32 @@ body {
     background-color: #e0e0e0;
 }
 
-#toolbar>div {
+#toolbar div {
     display: none;
 }
 
-#toolbar>.show {
+#toolbar .show {
     display: block;
 }
 
-#navbar button, #toolbar button {
-    float: left;
+#toolbar input {
+    background: transparent;
+    max-width: 100px;
+}
+
+#navbar button, #toolbar button, #toolbar input {
     color: #000000;
     text-align:  center;
     padding: 8px 16px;
     text-decoration: none;
     font-size: 17px;
-    cursor: pointer;
     user-select: none;
     border: none;
     outline: none;
+}
+
+#navbar button, #toolbar button {
+    cursor: pointer;
 }
 
 #navbar button:hover, #toolbar button:hover {
@@ -40,4 +47,8 @@ body {
 #navbar button.active {
     background-color: #575757;
     color: white;
+}
+
+canvas {
+    outline: none;
 }

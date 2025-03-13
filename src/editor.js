@@ -1,6 +1,9 @@
 const navbar = document.getElementById("navbar");
 const toolbar = document.getElementById("toolbar");
 
+const textBar = document.getElementById("text-bar");
+const fontSize = document.getElementById("fontsize")
+
 let selected;
 let dragged = false;
 let dragging = false;
@@ -37,13 +40,26 @@ canvas.addEventListener("mousemove", (e) => {
 });
 
 canvas.addEventListener("mouseup", (e) => {
+    if (selected && selected.type == "text") {
+        textBar.classList.add("show");
+        fontSize.value = selected.fontSize;
+    }
+    else textBar.classList.remove("show");
     dragged = false;
     dragging = false;
     renderSlide();
 });
 
-window.addEventListener("keydown", (e) => {
+fontSize.addEventListener("change", () => {
     if (selected && selected.type == "text") {
+        selected.fontSize = parseInt(fontSize.value);
+        textMeasure(selected);
+        renderSlide();
+    }
+});
+
+window.addEventListener("keydown", (e) => {
+    if (selected && selected.type == "text" && document.activeElement === canvas) {
         if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
             selected.text ??= "";
             selected.text += e.key;
@@ -51,8 +67,7 @@ window.addEventListener("keydown", (e) => {
             selected.text = selected.text.slice(0, -1);
             if (selected.text == "") selected.text = undefined;
         }
-        ctx.font = selected.font;
-        selected.width = ctx.measureText(selected.text).width;
+        textMeasure(selected);
         renderSlide();
     }
 

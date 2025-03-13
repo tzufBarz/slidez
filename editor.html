@@ -15,13 +15,17 @@
         </div>
         <div id="toolbar">
             <div class="show">
+                <div id="text-bar">
+                    <label for="fontsize">Font Size:</label>
+                    <input type="number" id="fontsize">
+                </div>
             </div>
             <div>
                 <button onclick="addTextBox()">Text Box</button>
             </div>
         </div>
     </div>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" tabindex="0"></canvas>
 
     <script src="./src/slideManager.js"></script>
     <script src="./src/renderer.js"></script>
