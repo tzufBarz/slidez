@@ -1,8 +1,33 @@
 isEditor = false;
 
+const fileInput = document.createElement('input');
+fileInput.type = "file";
+fileInput.accept = "application/json";
+
+fileInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+        try {
+          const jsonData = JSON.parse(reader.result); // Parse JSON data
+          start(jsonData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+    }
+
+    reader.readAsText(file);
+});
+
 window.addEventListener("keydown", (e) => {
-    if (e.key == "Escape") {
-        window.location.href = "editor.html";
+    // if (e.key == "Escape") {
+    //     window.location.href = "editor.html";
+    // }
+    
+    if (e.ctrlKey && e.key === 'o') {
+        fileInput.click();
     }
 })
 
